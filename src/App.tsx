@@ -1,21 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as C from './App.styles';
+import { Item } from './types/Item';
+import { ListItem } from './components/ListItem';
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [list, setList] = useState<Item[]>([]);
+
+  useEffect(() => {
+    loadList();
+  }, []);
+
+  const loadList = async () => {
+    setLoading(true);
+    const res = await fetch("http://localhost:4000/todo/");
+    const json = await res.json();
+    setList(json.list);
+    setLoading(false);
+  }
 
   return (
     <C.Container>
       <C.Area>
         <C.Header>To-do List</C.Header>
-
         {loading &&
           <div className="loading">⌛ Loading tasks...</div>
         }
 
         {/* Add Area */}
 
-        {/* List Area */}
+        {!loading && list.length > 0 &&
+        <>
+          {list.map((item, index) => (
+            <ListItem
+              key={index}
+              data={item}
+            />
+          ))}
+        </>
+        }
       </C.Area>
     </C.Container>
   );
