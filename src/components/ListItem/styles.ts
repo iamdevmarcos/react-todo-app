@@ -1,14 +1,27 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-    display:flex;
-    background-color:#20212C;
-    padding:10px;
-    border-radius:10px;
-    margin-bottom:10px;
-    text-align:center;
+type ContainerProps = {
+    done: number;
+}
+
+export const Container = styled.div(({ done }: ContainerProps)=>(
+    `
+    display: flex;
+    background-color: #20212C;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+
+    input {
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+    }
 
     label {
-        color:#CCC;
+        color: #CCC;
+        text-decoration: ${(done === 1) ? 'line-through' : 'initial'};
     }
-`;
+`
+));
