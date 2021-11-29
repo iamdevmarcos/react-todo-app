@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import * as C from './App.styles';
 import { Item } from './types/Item';
 import { ListItem } from './components/ListItem';
+import { AddArea } from './components/AddArea';
 import * as env from './env';
 
 const App = () => {
@@ -29,7 +30,7 @@ const App = () => {
           <div className="loading">⌛ Loading tasks...</div>
         }
 
-        {/* Add Area */}
+        <AddArea />
 
         {!loading && list.length > 0 &&
         <>
