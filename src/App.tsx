@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import * as C from './App.styles';
 import { Item } from './types/Item';
 import { ListItem } from './components/ListItem';
+import * as env from './env';
 
 const App = () => {
+
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState<Item[]>([]);
 
@@ -13,7 +15,7 @@ const App = () => {
 
   const loadList = async () => {
     setLoading(true);
-    const res = await fetch("http://localhost:4000/todo/");
+    const res = await fetch(env.API_URL);
     const json = await res.json();
     setList(json.list);
     setLoading(false);
