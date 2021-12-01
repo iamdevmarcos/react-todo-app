@@ -1,26 +1,48 @@
-import { useState, KeyboardEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import * as C from './styles';
 
 export const AddArea = () => {
     const [inputText, setInputText] = useState('');
 
-    const handleKeyUp = (e: KeyboardEvent) => {
-        if(e.code === 'Enter' && inputText !== '') {
-            alert("Progress okay!");
+    const handleAddTask = async (e: FormEvent) => {
+        e.preventDefault();
+
+        const API_URL = 'http://localhost:4000/todo/'
+
+        const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            title: inputText,
+        })
+        });
+        const json = await res.json();
+
+        if(json.error !== '') {
+        alert(json.error);
         }
+
+        console.log(json);
     }
 
     return (
         <C.Container>
-            <div className="image">➕</div>
-            <input
-                type="text"
-                placeholder="Add task"
-                value={inputText}
-                onChange={e => setInputText(e.target.value)}
-                onKeyUp={handleKeyUp}
-                autoFocus
-            />
+            <form onSubmit={handleAddTask}>
+                <div className="image">➕</div>
+                <input
+                    type="text"
+                    placeholder="Add task"
+                    value={inputText}
+                    onChange={e => setInputText(e.target.value)}
+                    autoFocus
+                />
+                <input
+                    type="submit"
+                    value="Send"
+                />
+            </form>
         </C.Container>
     );
 }

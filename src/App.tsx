@@ -30,10 +30,10 @@ const App = () => {
           <div className="loading">⌛ Loading tasks...</div>
         }
 
-        <AddArea />
-
         {!loading && list.length > 0 &&
         <>
+          <AddArea />
+          
           {list.map((item, index) => (
             <ListItem
               key={index}
